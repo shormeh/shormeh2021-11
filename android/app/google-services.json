@@ -1,0 +1,39 @@
+ {
+  "project_info": {
+    "project_number": "403212737435",
+    "project_id": "shormehnew",
+    "storage_bucket": "shormehnew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403212737435:android:a74bf265921c5101da5f3e",
+        "android_client_info": {
+          "package_name": "com.dev.worlddesign.shormeh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403212737435-eg57v3joe5002j67k4bdjofkejee9i9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBflaVPfrblrU1Deye7d4eQkZBTcKc905I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403212737435-eg57v3joe5002j67k4bdjofkejee9i9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

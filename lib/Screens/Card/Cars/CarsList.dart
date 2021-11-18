@@ -30,6 +30,7 @@ class _CarsListState extends State<CarsList> {
   String cardToken = "";
   String token = "";
   String? method;
+  String? lan;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,9 +42,11 @@ class _CarsListState extends State<CarsList> {
     final prefs = await SharedPreferences.getInstance();
     final _cardToken = prefs.getString("cardToken");
     final _token = prefs.getString("token");
+    final _translateLanguage = prefs.getInt('translateLanguage');
     setState(() {
       cardToken = _cardToken!;
       token = _token!;
+      _translateLanguage == 0 ? lan = 'en' : lan = 'ar';
     });
     getMyCars();
   }
@@ -288,6 +291,7 @@ class _CarsListState extends State<CarsList> {
     var response =
         await http.post(Uri.parse("${HomePage.URL}cart/choose_car"), headers: {
       'Authorization': 'Bearer $token',
+      "Content-Language": lan!,
     }, body: {
       'car_id': '$idCar',
       'cart_token': "$cardToken",

@@ -31,6 +31,7 @@ class _AdressListState extends State<AdressList> {
   String token = "";
   String? method;
   bool loading = false;
+  String? lan;
   @override
   void initState() {
     // TODO: implement initState
@@ -42,9 +43,11 @@ class _AdressListState extends State<AdressList> {
     final prefs = await SharedPreferences.getInstance();
     final _cardToken = prefs.getString("cardToken");
     final _token = prefs.getString("token");
+    final _translateLanguage = prefs.getInt('translateLanguage');
     setState(() {
       cardToken = _cardToken!;
       token = _token!;
+      _translateLanguage == 0 ? lan = 'en' : lan = 'ar';
     });
 
     print("Cars List");
@@ -285,6 +288,7 @@ class _AdressListState extends State<AdressList> {
     var response = await http
         .post(Uri.parse("${HomePage.URL}cart/choose_address"), headers: {
       'Authorization': 'Bearer $token',
+      "Content-Language": lan!,
     }, body: {
       'address_id': '$idAddress',
       'cart_token': "$cardToken",

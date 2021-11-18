@@ -91,17 +91,18 @@ class _Card1State extends State<Card1> {
         cardItems = dataMyCardProducts['data']['items'].length;
         for (int i = 0; i < dataMyCardProducts['data']['items'].length; i++) {
           addOn = [];
-
-          for (int j = 0;
-              j <
-                  dataMyCardProducts['data']['items'][i]['cartitemaddon']
-                      .length;
-              j++) {
-            lan == 'en'
-                ? addOn.add(dataMyCardProducts['data']['items'][i]
-                    ['cartitemaddon'][j]['addon']['name_en'])
-                : addOn.add(dataMyCardProducts['data']['items'][i]
-                    ['cartitemaddon'][j]['addon']['name_ar']);
+          if (dataMyCardProducts['data']['items'][i]['cartitemaddon'] != null) {
+            for (int j = 0;
+                j <
+                    dataMyCardProducts['data']['items'][i]['cartitemaddon']
+                        .length;
+                j++) {
+              lan == 'en'
+                  ? addOn.add(dataMyCardProducts['data']['items'][i]
+                      ['cartitemaddon'][j]['addon']['name_en'])
+                  : addOn.add(dataMyCardProducts['data']['items'][i]
+                      ['cartitemaddon'][j]['addon']['name_ar']);
+            }
           }
 
           allMyCardProducts.add(new Card1Model(
@@ -122,12 +123,16 @@ class _Card1State extends State<Card1> {
                         .length ==
                     0
                 ? ''
-                : lan == 'en'
-                    ? dataMyCardProducts['data']['items'][i]['cartitemoption']
-                        [0]['optionvalue']['name_en']
-                    : dataMyCardProducts['data']['items'][i]['cartitemoption']
-                            [0]['optionvalue']['name_ar']
-                        .toString(),
+                : dataMyCardProducts['data']['items'][i]['cartitemoption'][0]
+                            ['optionvalue'] ==
+                        null
+                    ? ''
+                    : lan == 'en'
+                        ? dataMyCardProducts['data']['items'][i]
+                            ['cartitemoption'][0]['optionvalue']['name_en']
+                        : dataMyCardProducts['data']['items'][i]
+                                ['cartitemoption'][0]['optionvalue']['name_ar']
+                            .toString(),
             addOn: addOn,
             notes: dataMyCardProducts['data']['items'][i]['note'] == null
                 ? ''

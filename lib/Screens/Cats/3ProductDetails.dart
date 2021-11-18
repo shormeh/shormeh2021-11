@@ -75,8 +75,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     // TODO: implement initState
     super.initState();
     getDataFromSharedPrfs();
-    print(widget.productID.toString() + 'jjjjj');
-    print(widget.catID.toString() + 'jjjjj');
   }
 
   Future getDataFromSharedPrfs() async {
@@ -373,7 +371,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ],
                           ),
                           Spacer(),
-                          productDetailsModel.allergens.toString() == ''
+                          productDetailsModel.allergens.toString() == '' ||
+                                  productDetailsModel.allergens.toString() ==
+                                      'null'
                               ? Container()
                               : Column(
                                   children: [
@@ -1053,68 +1053,70 @@ class _ProductDetailsState extends State<ProductDetails> {
     // print(listOptions);
     // print(listAddons);
 
-    setState(() {
-      loading = true;
-    });
-    if (cardToken == "" || cardToken.toString() == "null") {
-      prefs.setInt('counter', 1);
+    if (productDetailsModel.mainName != '') {
       setState(() {
+        loading = true;
+      });
+      if (cardToken == "" || cardToken.toString() == "null") {
         prefs.setInt('counter', 1);
-        counter = 1;
-      });
+        setState(() {
+          prefs.setInt('counter', 1);
+          counter = 1;
+        });
 
-      var response = await http
-          .post(Uri.parse("${HomePage.URL}cart/add_product"), headers: {
-        "Content-Language": lan,
-        "Authorization": "Bearer $token",
-      }, body: {
-        "vendor_id": "$vendorID",
-        "product_id": "${productDetailsModel.id}",
-        "quantity": "$portinsNum",
-        "options": "$listOptions",
-        "addons": "$listAddons",
-        "note": "${tECNotes.text}",
-      });
-      var dataOrder = json.decode(response.body);
-      log(dataOrder.toString());
-      if ("${dataOrder['success']}" == "1") {
-        saveDataInSharedPref(context, dataOrder['cart']['token']);
-      } else {
-        displayToastMessage(dataOrder['message']);
-        setState(() {
-          loading = false;
+        var response = await http
+            .post(Uri.parse("${HomePage.URL}cart/add_product"), headers: {
+          "Content-Language": lan,
+          "Authorization": "Bearer $token",
+        }, body: {
+          "vendor_id": "$vendorID",
+          "product_id": "${productDetailsModel.id}",
+          "quantity": "$portinsNum",
+          "options": "$listOptions",
+          "addons": "$listAddons",
+          "note": "${tECNotes.text}",
         });
-      }
-    } else {
-      print('CarToken' + cardToken.toString());
-      var response = await http
-          .post(Uri.parse("${HomePage.URL}cart/add_product"), headers: {
-        "Content-Language": lan,
-        "Authorization": "Bearer $token",
-      }, body: {
-        "vendor_id": "$vendorID",
-        "product_id": "${productDetailsModel.id}",
-        "quantity": "$portinsNum",
-        "options": "$listOptions",
-        "addons": "$listAddons",
-        "note": "${tECNotes.text}",
-        "cart_token": cardToken,
-      });
-      log(response.body.toString());
-      var dataOrder = json.decode(response.body);
+        var dataOrder = json.decode(response.body);
+        log(dataOrder.toString());
+        if ("${dataOrder['success']}" == "1") {
+          saveDataInSharedPref(context, dataOrder['cart']['token']);
+        } else {
+          displayToastMessage(dataOrder['message']);
+          setState(() {
+            loading = false;
+          });
+        }
+      } else {
+        print('CarToken' + cardToken.toString());
+        var response = await http
+            .post(Uri.parse("${HomePage.URL}cart/add_product"), headers: {
+          "Content-Language": lan,
+          "Authorization": "Bearer $token",
+        }, body: {
+          "vendor_id": "$vendorID",
+          "product_id": "${productDetailsModel.id}",
+          "quantity": "$portinsNum",
+          "options": "$listOptions",
+          "addons": "$listAddons",
+          "note": "${tECNotes.text}",
+          "cart_token": cardToken,
+        });
+        log(response.body.toString());
+        var dataOrder = json.decode(response.body);
 
-      if ("${dataOrder['success']}" == "1") {
-        setState(() {
-          prefs.setInt('counter', dataOrder['cart']['items_count']);
-          counter = dataOrder['cart']['items_count'];
-        });
-        displayToastMessage(translate('lan.addedSuccessfully'));
-        goToMyCard();
-      } else {
-        displayToastMessage(dataOrder['message']);
-        setState(() {
-          loading = false;
-        });
+        if ("${dataOrder['success']}" == "1") {
+          setState(() {
+            prefs.setInt('counter', dataOrder['cart']['items_count']);
+            counter = dataOrder['cart']['items_count'];
+          });
+          displayToastMessage(translate('lan.addedSuccessfully'));
+          goToMyCard();
+        } else {
+          displayToastMessage(dataOrder['message']);
+          setState(() {
+            loading = false;
+          });
+        }
       }
     }
   }

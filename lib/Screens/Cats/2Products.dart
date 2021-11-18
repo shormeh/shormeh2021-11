@@ -149,7 +149,12 @@ class _ProductsState extends State<Products> {
           InkWell(
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Card1()));
+                      context, MaterialPageRoute(builder: (context) => Card1()))
+                  .then((value) {
+                setState(() {
+                  getDataFromSharedPref();
+                });
+              });
             },
             child: Row(
               children: [
@@ -290,16 +295,14 @@ class _ProductsState extends State<Products> {
                     color: HexColor('#40976c'),
                   )),
               itemBuilder: (context, item, index) {
-                print(_pagingController.itemList![index].price);
-                print(allSubCats.length + 5555555555);
-
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProductDetails(
-                                productID: allSubCats[index].id,
+                                productID:
+                                    _pagingController.itemList![index].id,
                                 vendor: vendor!,
                                 token: token,
                                 catID: widget.catID!,

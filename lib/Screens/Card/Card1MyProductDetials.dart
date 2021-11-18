@@ -126,7 +126,8 @@ class _Card1State extends State<Card1> {
                     ? dataMyCardProducts['data']['items'][i]['cartitemoption']
                         [0]['optionvalue']['name_en']
                     : dataMyCardProducts['data']['items'][i]['cartitemoption']
-                        [0]['optionvalue']['name_ar'],
+                            [0]['optionvalue']['name_ar']
+                        .toString(),
             addOn: addOn,
             notes: dataMyCardProducts['data']['items'][i]['note'] == null
                 ? ''

@@ -135,7 +135,6 @@ class _HomePageState extends State<HomePage> {
     final prefs = await SharedPreferences.getInstance();
     final _isLogin = prefs.getBool('isLogin');
     final _counter = prefs.getInt('counter');
-
     if (_isLogin == null) {
       await prefs.setBool('isLogin', false);
     } else {
@@ -181,9 +180,9 @@ class _HomePageState extends State<HomePage> {
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 3)) {
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(msg: "Double Tab To Exit");
+      Fluttertoast.showToast(msg: 'Double Tap To Exit');
       return Future.value(false);
     } else
       exit(0);
@@ -206,10 +205,11 @@ class _HomePageState extends State<HomePage> {
               profile = false;
               more = false;
               _bottomNavIndex = 2;
+              getDataFromSharedPref();
             });
           } else
             onWillPop();
-          return Future.value(true);
+          return Future.value(false);
         },
         child: Scaffold(
           body: Stack(
@@ -328,6 +328,7 @@ class _HomePageState extends State<HomePage> {
                           profile = false;
                           more = false;
                           _bottomNavIndex = 0;
+                          getDataFromSharedPref();
                         });
                         break;
 
@@ -338,6 +339,7 @@ class _HomePageState extends State<HomePage> {
                           home = false;
                           profile = false;
                           more = false;
+                          getDataFromSharedPref();
                         });
                         if (!isLogin)
                           Navigator.push(context,
@@ -355,6 +357,7 @@ class _HomePageState extends State<HomePage> {
                           profile = false;
                           more = false;
                           _bottomNavIndex = 2;
+                          getDataFromSharedPref();
                         });
                         break;
                       case 3:
@@ -364,6 +367,7 @@ class _HomePageState extends State<HomePage> {
                           home = false;
                           profile = true;
                           more = false;
+                          getDataFromSharedPref();
                         });
                         if (!isLogin) {
                           Navigator.push(context,
@@ -381,6 +385,7 @@ class _HomePageState extends State<HomePage> {
                           profile = false;
                           more = true;
                           _bottomNavIndex = 4;
+                          getDataFromSharedPref();
                         });
                         break;
                     }

@@ -290,6 +290,9 @@ class _ProductsState extends State<Products> {
                     color: HexColor('#40976c'),
                   )),
               itemBuilder: (context, item, index) {
+                print(_pagingController.itemList![index].price);
+                print(allSubCats.length + 5555555555);
+
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -323,7 +326,8 @@ class _ProductsState extends State<Products> {
                             child: FadeInImage.assetNetwork(
                               placeholder:
                                   'assets/images/59529-skeleton-loader-kuhan.gif',
-                              image: "${allSubCats[index].image}",
+                              image:
+                                  "${_pagingController.itemList![index].image}",
                               fit: BoxFit.fill,
                               width: double.infinity,
                             ),
@@ -357,7 +361,9 @@ class _ProductsState extends State<Products> {
                                       color: Colors.black.withOpacity(0.6)),
                                   child: Center(
                                     child: Icon(
-                                      allSubCats[index].liked == 1
+                                      _pagingController
+                                                  .itemList![index].liked ==
+                                              1
                                           ? Icons.favorite_rounded
                                           : Icons.favorite_border,
                                       color: HomePage.colorYellow,
@@ -401,7 +407,9 @@ class _ProductsState extends State<Products> {
                                   width: MediaQuery.of(context).size.width / 20,
                                 ),
                                 Expanded(
-                                  child: Text(allSubCats[index].mainName,
+                                  child: Text(
+                                      _pagingController
+                                          .itemList![index].mainName,
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.white,
@@ -410,7 +418,8 @@ class _ProductsState extends State<Products> {
                                 ),
                                 Row(
                                   children: [
-                                    allSubCats[index].price == "0.00"
+                                    _pagingController.itemList![index].price ==
+                                            "0.00"
                                         ? Text(
                                             translate('lan.priceChoice'),
                                             style: TextStyle(
@@ -419,7 +428,8 @@ class _ProductsState extends State<Products> {
                                                 color: HomePage.colorYellow),
                                           )
                                         : Text(
-                                            "${allSubCats[index].price}" + ' ',
+                                            "${_pagingController.itemList![index].price}" +
+                                                ' ',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: MediaQuery.of(context)
@@ -428,7 +438,8 @@ class _ProductsState extends State<Products> {
                                                     25,
                                                 color: HomePage.colorYellow),
                                           ),
-                                    allSubCats[index].price == "0.00"
+                                    _pagingController.itemList![index].price ==
+                                            "0.00"
                                         ? Container()
                                         : Text(
                                             translate('lan.rs'),

@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
         else
           startTime12Hour.add(
               (int.parse(startTime[i].substring(0, 2)) - 12).toString() +
-                  startTime[i].substring(2, 3) +
+                  startTime[i].substring(2, 5) +
                   ' PM');
         if (int.parse(endTime[i].substring(0, 2)) < 12)
           endTime12Hour.add(data[i]['end_time'] + ' AM');

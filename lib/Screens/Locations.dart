@@ -265,6 +265,8 @@ class _LocationsState extends State<Locations> {
     print(data);
     startTime.clear();
     endTime.clear();
+    startTime12Hour.clear();
+    endTime12Hour.clear();
     setState(() {
       start = '';
       end = '';
@@ -286,7 +288,7 @@ class _LocationsState extends State<Locations> {
         else
           startTime12Hour.add(
               (int.parse(startTime[i].substring(0, 2)) - 12).toString() +
-                  startTime[i].substring(2, 3) +
+                  startTime[i].substring(2, 5) +
                   ' PM');
         if (int.parse(endTime[i].substring(0, 2)) < 12)
           endTime12Hour.add(data[i]['end_time'] + ' AM');
@@ -335,7 +337,7 @@ class _LocationsState extends State<Locations> {
             "${HomePage.URL}vendors?lat=${currentLocation!.latitude}&long=${currentLocation!.longitude}"),
         headers: {
           // "Authorization": "Bearer $token",
-          "Content-Language": lan,
+          "Content-Language": 'en',
         });
 
     var data = json.decode(response.body);
@@ -346,8 +348,8 @@ class _LocationsState extends State<Locations> {
         if (data[i]['vendor']['lat'] != null) {
           allLocationsGPS.add(new LocationModel(
             data[i]['vendor']['id'],
-            "${data[i]['vendor']['description']}",
-            "${data[i]['vendor']['id']}",
+            "${data[i]['description_ar']}",
+            "${data[i]['description_en']}",
             "${data[i]['vendor']['image']}",
             "${data[i]['vendor']['lat']}",
             "${data[i]['vendor']['long']}",
@@ -574,14 +576,27 @@ class _LocationsState extends State<Locations> {
                       const SizedBox(
                         height: 3,
                       ),
-                      Text(
-                        location1!.email != "null" ? location1!.email : '',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            fontFamily: 'Tajawal',
-                            color: HexColor('#D5C48E')),
-                      ),
+                      lan == 'ar'
+                          ? Text(
+                              location1!.descriptionAR != "null"
+                                  ? location1!.descriptionAR
+                                  : '',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontFamily: 'Tajawal',
+                                  color: HexColor('#D5C48E')),
+                            )
+                          : Text(
+                              location1!.descriptionEN != "null"
+                                  ? location1!.descriptionEN
+                                  : '',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontFamily: 'Tajawal',
+                                  color: HexColor('#D5C48E')),
+                            ),
                       SizedBox(
                         height: 5,
                       ),

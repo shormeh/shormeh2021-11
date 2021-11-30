@@ -16,6 +16,7 @@ class Card1Model {
   int count;
   bool isSelected;
   int? liked;
+  String? drinkTitle;
 
   Card1Model(
       this.id,
@@ -34,5 +35,6 @@ class Card1Model {
       {this.addOn,
       this.option,
       this.notes,
-      this.liked});
+      this.liked,
+      this.drinkTitle});
 }

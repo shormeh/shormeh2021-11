@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -137,6 +138,8 @@ class _Card1State extends State<Card1> {
             notes: dataMyCardProducts['data']['items'][i]['note'] == null
                 ? ''
                 : dataMyCardProducts['data']['items'][i]['note'],
+            drinkTitle: dataMyCardProducts['data']['items'][i]['drink']!=null?lan == 'en'?dataMyCardProducts['data']['items'][i]['drink']['title_en']:
+            dataMyCardProducts['data']['items'][i]['drink']['title_ar']:''
           ));
         }
 
@@ -267,9 +270,9 @@ class _Card1State extends State<Card1> {
                                       MediaQuery.of(context).size.width / 50,
                                       MediaQuery.of(context).size.width / 100),
                                   padding: EdgeInsets.fromLTRB(
-                                      MediaQuery.of(context).size.width / 50,
+                                      5,
                                       MediaQuery.of(context).size.width / 100,
-                                      MediaQuery.of(context).size.width / 50,
+                                      5,
                                       MediaQuery.of(context).size.width / 100),
                                   child: Slidable(
                                     actionPane: SlidableDrawerActionPane(),
@@ -282,6 +285,7 @@ class _Card1State extends State<Card1> {
                                           Expanded(
                                             child: Text(
                                               "${allMyCardProducts[index].productName}",
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   fontFamily: 'Tajawal'),
                                             ),
@@ -294,11 +298,20 @@ class _Card1State extends State<Card1> {
                                                       allMyCardProducts[index]
                                                           .count++;
                                                       changeCount(
+                                                              allMyCardProducts[
+                                                                  index],
+                                                              allMyCardProducts[
+                                                                      index]
+                                                                  .count)
+                                                          .then((value) {
+                                                        setState(() {
                                                           allMyCardProducts[
-                                                              index],
-                                                          allMyCardProducts[
-                                                                  index]
-                                                              .count);
+                                                                      index]
+                                                                  .productPrice =
+                                                              value;
+                                                        });
+                                                      });
+                                                      ;
                                                     });
                                                   },
                                                   child: Image.asset(
@@ -331,11 +344,19 @@ class _Card1State extends State<Card1> {
                                                                 index]
                                                             .count);
                                                         changeCount(
+                                                                allMyCardProducts[
+                                                                    index],
+                                                                allMyCardProducts[
+                                                                        index]
+                                                                    .count)
+                                                            .then((value) {
+                                                          setState(() {
                                                             allMyCardProducts[
-                                                                index],
-                                                            allMyCardProducts[
-                                                                    index]
-                                                                .count);
+                                                                        index]
+                                                                    .productPrice =
+                                                                value;
+                                                          });
+                                                        });
                                                       });
                                                   },
                                                   child: Image.asset(
@@ -347,13 +368,15 @@ class _Card1State extends State<Card1> {
                                           ),
                                         ],
                                       ),
-                                      leading: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          ' ${allMyCardProducts[index].productImage}'
-                                              .replaceAll(' ', ''),
+                                      leading: ClipRRect(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(7)),
+                                        child: Image.network(
+                                          allMyCardProducts[index].productImage,
+                                          height: 50,
+                                          width: 65,
+                                          fit: BoxFit.fill,
                                         ),
-                                        radius: 25,
-                                        backgroundColor: Colors.black12,
                                       ),
                                       children: [
                                         Padding(
@@ -400,6 +423,7 @@ class _Card1State extends State<Card1> {
                                                 ],
                                               ),
                                               Divider(),
+                                              allMyCardProducts[index].option!=''?
                                               Row(
                                                 children: [
                                                   Expanded(
@@ -418,9 +442,34 @@ class _Card1State extends State<Card1> {
                                                         fontFamily: 'Tajawal'),
                                                   ),
                                                 ],
-                                              ),
-                                              Divider(),
+                                              ):Container(),
+                                              allMyCardProducts[index].option!=''?  Divider():Container(),
+                                              allMyCardProducts[index].drinkTitle!=''?
                                               Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      translate('lan.drink'),
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontFamily:
+                                                          'Tajawal'),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${allMyCardProducts[index].drinkTitle} ',
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily: 'Tajawal'),
+                                                  ),
+                                                ],
+                                              ):Container(),
+                                              allMyCardProducts[index].drinkTitle!=''?
+                                              Divider():Container(),
+                                              allMyCardProducts[
+                                              index]
+                                                  .addOn!
+                                                  .length==0?Container(): Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
@@ -471,8 +520,12 @@ class _Card1State extends State<Card1> {
                                                   )
                                                 ],
                                               ),
-                                              Divider(),
-                                              Row(
+                                              allMyCardProducts[
+                                              index]
+                                                  .addOn!
+                                                  .length==0?Container():  Divider(),
+                                              allMyCardProducts[index].notes==''?Container()
+                                                  :Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
@@ -505,6 +558,7 @@ class _Card1State extends State<Card1> {
                                                   ),
                                                 ],
                                               ),
+                                              allMyCardProducts[index].notes==''?Container()  :
                                               Divider(),
                                               Row(
                                                 children: [
@@ -518,7 +572,11 @@ class _Card1State extends State<Card1> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: 60,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.5,
                                                     child: Text(
                                                       '${allMyCardProducts[index].productPrice} ' +
                                                           translate('lan.rs'),
@@ -526,6 +584,9 @@ class _Card1State extends State<Card1> {
                                                           fontSize: 16,
                                                           fontFamily:
                                                               'Tajawal'),
+                                                      textAlign: lan == "en"
+                                                          ? TextAlign.right
+                                                          : TextAlign.left,
                                                     ),
                                                   ),
                                                 ],
@@ -664,13 +725,6 @@ class _Card1State extends State<Card1> {
   }
 
   Future changeCount(Card1Model product, int count) async {
-    print('cccccc');
-    print(token.toString() + 'hhhhhhh');
-    print(vendorID);
-    print(product.id.toString());
-    print(count.toString());
-    print(product.addOn.toString());
-    print(product.notes.toString());
     var response =
         await http.post(Uri.parse("${HomePage.URL}cart/add_product"), headers: {
       "Content-Language": lan,
@@ -684,9 +738,9 @@ class _Card1State extends State<Card1> {
       "note": product.notes.toString(),
       "cart_token": cardToken,
     });
-    var data = response.body;
+    var data = json.decode(response.body);
     print(data);
-    print('ooooooooo');
+    return data['cart']['total'].toString();
   }
 
   void displayToastMessage(var toastMessage) {

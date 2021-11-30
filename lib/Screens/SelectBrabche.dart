@@ -40,7 +40,9 @@ class _SelectBrancheState extends State<SelectBranche>
   // bool enableClick=true;
 
   int translateLanguage = 0;
-
+  Timer? timer;
+  int _currentIndex = 0;
+  CrossFadeState _crossFadeState = CrossFadeState.showFirst;
   @override
   void initState() {
     // TODO: implement initState
@@ -92,6 +94,18 @@ class _SelectBrancheState extends State<SelectBranche>
         dataAllSilderCities['cities_slider'][2]['img_url'],
       ];
     });
+    // timer = Timer.periodic(Duration(seconds: 3), (timer) async {
+    //   if (mounted) {
+    //     setState(() {
+    //       if (_currentIndex + 1 == allSliderCities.length) {
+    //         _currentIndex = 0;
+    //         CrossFadeState.showSecond;
+    //       } else {
+    //         _currentIndex = _currentIndex + 1;
+    //       }
+    //     });
+    //   }
+    // });
   }
 
   getBranches() async {
@@ -137,11 +151,49 @@ class _SelectBrancheState extends State<SelectBranche>
       body: Stack(
         children: [
           //Slider
+          // AnimatedCrossFade(
+          //   crossFadeState: _crossFadeState,
+          //   duration: const Duration(seconds: 2),
+          //   reverseDuration: const Duration(seconds: 1),
+          //   firstCurve: Curves.bounceInOut,
+          //   firstChild: Container(
+          //       width: MediaQuery.of(context).size.width,
+          //       height: MediaQuery.of(context).size.height,
+          //       child: Image.network(
+          //         allSliderCities[_currentIndex],
+          //         fit: BoxFit.fill,
+          //       )),
+          //   secondChild: Container(
+          //       width: MediaQuery.of(context).size.width,
+          //       height: MediaQuery.of(context).size.height,
+          //       child: Image.network(
+          //         allSliderCities[_currentIndex + 1],
+          //         fit: BoxFit.fill,
+          //       )),
+          // ),
+          // AnimatedSwitcher(
+          //   duration: const Duration(milliseconds: 1200),
+          //   transitionBuilder: (
+          //     Widget child,
+          //     Animation<double> animation,
+          //   ) {
+          //     return ScaleTransition(child: child, scale: animation);
+          //   },
+          //   child: Container(
+          //       key: ValueKey(allSliderCities[_currentIndex]),
+          //       width: MediaQuery.of(context).size.width,
+          //       height: MediaQuery.of(context).size.height,
+          //       child: Image.network(
+          //         allSliderCities[_currentIndex],
+          //         fit: BoxFit.fill,
+          //       )),
+          // ),
           CarouselSlider(
             options: CarouselOptions(
               enlargeCenterPage: true,
               autoPlay: true,
-              autoPlayAnimationDuration: Duration(milliseconds: 1000),
+              autoPlayAnimationDuration: Duration(seconds: 1),
+              autoPlayCurve: Curves.ease,
               height: MediaQuery.of(context).size.height,
               viewportFraction: 1.0,
             ),
@@ -180,7 +232,7 @@ class _SelectBrancheState extends State<SelectBranche>
                           borderRadius: BorderRadius.all(
                             Radius.circular(10.0),
                           ),
-                          color: Colors.transparent,
+                          color: Colors.white.withOpacity(0.8),
                         ),
                         margin: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 50),
@@ -228,7 +280,7 @@ class _SelectBrancheState extends State<SelectBranche>
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10.0),
                                 ),
-                                color: Colors.transparent,
+                                color: Colors.white.withOpacity(0.8),
                               ),
                               margin: EdgeInsets.all(
                                   MediaQuery.of(context).size.width / 50),

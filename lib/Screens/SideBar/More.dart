@@ -377,10 +377,8 @@ class _MoreState extends State<More> {
             Divider(),
             //Excellent Request
             InkWell(
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => ExcelentRequest()));
+              onTap: () async {
+                await launch('https://forms.gle/XSB8ecJX7sjiBFTS9');
               },
               child: Container(
                 height: double3,

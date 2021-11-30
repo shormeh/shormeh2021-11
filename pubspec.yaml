@@ -76,6 +76,9 @@ dependencies:
   badges: ^2.0.1
   flutter_html: ^2.1.5
   permission_handler: ^8.3.0
+  font_awesome_flutter: ^9.2.0
+  webview_flutter: ^2.3.1
+
 
 
 

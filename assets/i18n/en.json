@@ -13,7 +13,7 @@
   "myPoints" : "My Points",
   "language" : "Language",
   "news" : "News",
-  "excelentRequest" : "Excelnt Request",
+  "excelentRequest" : "Excellent Request",
   "aboutUs" : "About Us",
   "contactUs" : "Contact us",
   "mobile" : "Mobile",
@@ -159,9 +159,9 @@
   "favouritesEmpty": "There are no favorites",
   "minute":"Minutes",
   "welcome": "Signed in successfully",
-  "subTotal": "Total before discount",
+  "subTotal": "Order price before discount",
   "policy": "By creating an account you agree our Terms of Service and Privacy Policy",
-  "discound2": "Discount/Points",
+  "discound2": "Discount / Points",
   "pointsLimit": "Minimum number of points that can be used",
   "Point": "point",
   "finishOrder":"Finish Order",
@@ -174,5 +174,9 @@
   "allergens": "Allergens",
   "ordersEmpty": "Orders Empty",
   "offersEmpty": "No Offers",
-  "mustAgree": "Terms and conditions must be agreed"
+  "mustAgree": "Terms and conditions must be agreed",
+  "chooseDrink": "Choose your favorite drink",
+  "chooseDrinkPlz": "Please choose your favorite drink",
+  "drink": "Drink"
+
 }}

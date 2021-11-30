@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shormeh/Models/CardModel1.dart';
 import 'package:shormeh/Models/PaymentMethodsModel.dart';
 import 'package:shormeh/Screens/Card/Card5OdrerStatus.dart';
-import 'package:shormeh/Screens/Card/checkout_payment.dart';
 import 'package:shormeh/Screens/Home/HomePage.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -535,8 +534,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   ['discount'] ==
                                               null
                                           ? ' 0 '
-                                          : widget.dataOrderDetails['cart']
-                                                      ['discount']
+                                          : (-widget.dataOrderDetails['cart']
+                                                      ['discount'])
                                                   .toString() +
                                               ' ',
                                       style: TextStyle(
@@ -888,19 +887,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       color: HomePage.colorGreen,
                                       onPressed: () {
                                         if (code == 'card') {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CheckoutPayment(
-                                                        price:
-                                                            allMyCardProducts[0]
-                                                                .total
-                                                                .toString(),
-                                                        cart_token: cardToken,
-                                                        token: token,
-                                                        language: lan,
-                                                      )));
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             CheckoutPayment(
+                                          //               price:
+                                          //                   allMyCardProducts[0]
+                                          //                       .total
+                                          //                       .toString(),
+                                          //               cart_token: cardToken,
+                                          //               token: token,
+                                          //               language: lan,
+                                          //             )));
                                         } else {
                                           if (method != null) {
                                             setState(() {

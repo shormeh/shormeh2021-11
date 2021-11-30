@@ -1,73 +1,58 @@
-// import 'dart:async';
 // import 'dart:io';
 //
 // import 'package:flutter/material.dart';
+// import 'package:flutter_translate/flutter_translate.dart';
+// import 'package:hexcolor/hexcolor.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 //
-//
-// class ExcelentRequest extends StatefulWidget {
+// class ExcellentRequest extends StatefulWidget {
 //   @override
-//   _ExcelentRequestState createState() => _ExcelentRequestState();
+//   ExcellentRequestState createState() => ExcellentRequestState();
 // }
 //
-// class _ExcelentRequestState extends State<ExcelentRequest> {
-//   final Completer<WebViewController> _controller =
-//   Completer<WebViewController>();
-//
-//
+// class ExcellentRequestState extends State<ExcellentRequest> {
 //   @override
 //   void initState() {
-//     // TODO: implement initState
 //     super.initState();
+//     // Enable hybrid composition.
 //     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-//
+//     _launchURL('https://forms.gle/XSB8ecJX7sjiBFTS9');
 //   }
+//
+//
+//
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       body: Container(
-//         width: MediaQuery.of(context).size.width,
-//         height: MediaQuery.of(context).size.height,
-//         child:
-//         WebView(
-//           initialUrl: 'https://docs.google.com/forms/d/17_03jn8Km-Ko0ELu2DnNHtqco3HvSodh3tVyVdUp7uM/prefill',
-//           javascriptMode: JavascriptMode.unrestricted,
-//           onWebViewCreated: (WebViewController webViewController) {
-//             _controller.complete(webViewController);
+//       appBar: AppBar(
+//         centerTitle: true,
+//         title: Text(
+//           translate('lan.excelentRequest'),
+//           style: TextStyle(
+//               color: Colors.white,
+//               fontWeight: FontWeight.bold,
+//               fontFamily: 'Tajawal'),
+//         ),
+//         backgroundColor: HexColor('#40976c'),
+//         elevation: 5.0,
+//         leading: InkWell(
+//           onTap: () {
+//             Navigator.pop(context);
 //           },
-//           javascriptChannels: <JavascriptChannel>[
-//             _toasterJavascriptChannel(context),
-//           ].toSet(),
-//           navigationDelegate: (NavigationRequest request) {
-//             if (request.url.startsWith('https://www.youtube.com/')) {
-//               print('blocking navigation to $request}');
-//               return NavigationDecision.prevent;
-//             }
-//             print('allowing navigation to $request');
-//             return NavigationDecision.navigate;
-//           },
-//           onPageStarted: (String url) {
-//             print('Page started loading: $url');
-//           },
-//           onPageFinished: (String url) {
-//             setState(() {
-//              // isWebLoaded=true;
-//             });
-//             print('Page finished loading: $url');
-//           },
-//           gestureNavigationEnabled: true,
-//
+//           child: Icon(
+//             Icons.arrow_back_ios,
+//             color: Colors.white,
+//           ),
 //         ),
 //       ),
+//       body: WebView(
+//         initialUrl: 'https://forms.gle/XSB8ecJX7sjiBFTS9',
+//         javascriptMode: JavascriptMode.unrestricted,
+//         onWebResourceError: (WebResourceError webviewerrr) {
+//           print("Handle your Error Page here");
+//         },
+//       ),
 //     );
-//   }
-//   JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-//     return JavascriptChannel(
-//         name: 'Toaster',
-//         onMessageReceived: (JavascriptMessage message) {
-//           // ignore: deprecated_member_use
-//           Scaffold.of(context).showSnackBar(
-//             SnackBar(content: Text(message.message)),
-//           );
-//         });
 //   }
 // }

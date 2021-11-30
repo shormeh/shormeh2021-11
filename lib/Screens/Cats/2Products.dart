@@ -36,7 +36,7 @@ class _ProductsState extends State<Products> {
 
   bool isHome = true;
   final PagingController<int, ProductsModel> _pagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 1);
 
   int? translationLanguage;
 
@@ -100,34 +100,41 @@ class _ProductsState extends State<Products> {
     final prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString("token");
     Uri url = Uri.parse(
-      "${HomePage.URL}vendors/${widget.vendorID}/${widget.catID}/products?page=$currentPage",
+      "${HomePage.URL}vendors/${widget.vendorID}/${widget.catID}/products?page=$pageKey",
     );
 
     var response = await http.get(url, headers: {
       "Content-Language": lan,
       "Authorization": "Bearer $_token",
     });
-    var dataAllSubCats;
-    dataAllSubCats = json.decode(response.body);
-
-    final isLastPage = dataAllSubCats['data'].length < 5;
-    log(response.body);
-    for (int i = 0; i < dataAllSubCats['data'].length; i++) {
+    List dataAllSubCats = [];
+    var data;
+    _pagingController.itemList=[];
+     data = json.decode(response.body);
+    dataAllSubCats = data['data'];
+    final isLastPage = dataAllSubCats.length < 5;
+    log(response.body.toString());
+    for (int i = 0; i < dataAllSubCats.length; i++) {
       allSubCats.add(new ProductsModel(
-        dataAllSubCats['data'][i]['id'],
-        dataAllSubCats['data'][i]['image_one'],
-        dataAllSubCats['data'][i]['name'],
-        dataAllSubCats['data'][i]['price'],
-        dataAllSubCats['data'][i]['in_favourite'],
+        dataAllSubCats[i]['id'],
+        dataAllSubCats[i]['image_one'],
+        dataAllSubCats[i]['name'],
+        dataAllSubCats[i]['price'],
+        dataAllSubCats[i]['in_favourite'],
       ));
     }
+    // .sublist(increment)
     if (isLastPage) {
-      _pagingController.appendLastPage(allSubCats.sublist(increment), 'no');
+      _pagingController.appendLastPage(allSubCats, 'no');
+      dataAllSubCats;
     } else {
-      var nextPageKey = pageKey + dataAllSubCats['data'].length;
+      var nextPageKey = pageKey + 1;
       _pagingController.appendPage(allSubCats, nextPageKey.toInt(), 'no');
+      dataAllSubCats = [];
+
     }
     setState(() {
+      dataAllSubCats = [];
       increment = increment + 5;
       currentPage++;
     });

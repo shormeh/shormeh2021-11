@@ -16,6 +16,7 @@ import 'package:shormeh/Models/Addon.dart';
 import 'package:shormeh/Models/Options.dart';
 import 'package:shormeh/Models/ProductDetailsModel.dart';
 import 'package:shormeh/Models/Slider.dart';
+import 'package:shormeh/Models/drinkes.dart';
 import 'package:shormeh/Screens/Card/Card1MyProductDetials.dart';
 import 'package:shormeh/Screens/Home/HomePage.dart';
 import 'package:shormeh/Screens/SideBar/favorites_screen.dart';
@@ -52,6 +53,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   List<SliderModel> allSliderImagesProduct = [];
   List<AddonModel> allAddons = [];
   List<OptionsModel> allOptions = [];
+  List<Drinks> allDrinks = [];
   TextEditingController tECNotes = new TextEditingController();
   List<String> images = [];
   String lan = '';
@@ -69,6 +71,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String token = '';
   bool loading = false;
   int? counter;
+  int? drinkID;
 
   @override
   void initState() {
@@ -159,6 +162,14 @@ class _ProductDetailsState extends State<ProductDetails> {
             dataProductDetails['options'][i]["text_ar"],
             dataProductDetails['options'][i]["price"]));
       }
+      for (int i = 0; i < dataProductDetails['drinks'].length; i++) {
+        allDrinks.add(new Drinks(
+          id: dataProductDetails['drinks'][i]["id"],
+          titleAR: dataProductDetails['drinks'][i]["title_ar"],
+          titleEN: dataProductDetails['drinks'][i]["title_en"],
+        ));
+      }
+
       totalOptions = double.parse(dataProductDetails['price']);
       //Slider
       images.add(dataProductDetails['image_one']);
@@ -332,7 +343,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                             padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
                             child: Text(
                               "${productDetailsModel.description}",
-                              maxLines: 4,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize:
@@ -712,6 +722,103 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 10,
                 ),
+                allDrinks.length > 0
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          translate('lan.chooseDrink'),
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width / 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : Container(),
+                allDrinks.length > 0
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        itemCount: allDrinks.length,
+                        padding: EdgeInsets.fromLTRB(
+                            0.0,
+                            MediaQuery.of(context).size.width / 50,
+                            0.0,
+                            MediaQuery.of(context).size.width / 50),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // total =    total + double.parse(allOptions[index].price);
+                                if (allDrinks[index].isSelected == false) {
+                                  allDrinks[index].isSelected = true;
+                                  drinkID = allDrinks[index].id;
+                                  for (int i = 0; i < allDrinks.length; i++) {
+                                    if (i != index) {
+                                      allDrinks[i].isSelected = false;
+                                    }
+                                  }
+                                } else if (allDrinks[index].isSelected ==
+                                    true) {
+                                  for (int i = 0; i < allDrinks.length; i++) {
+                                    allDrinks[i].isSelected = false;
+                                  }
+                                }
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    color: Color(0xfff7f7f7),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Color(0xfff7f7f7),
+                                          spreadRadius: 0.0),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width / 50),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                            child: Text(
+                                          translationLanguage == 0
+                                              ? "${allDrinks[index].titleEN}"
+                                              : "${allDrinks[index].titleAR}",
+                                          style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  25),
+                                        )),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, right: 5, bottom: 5),
+                                        child: SvgPicture.asset(
+                                          'assets/images/comment.svg',
+                                          height: 20,
+                                          width: 20,
+                                          color: allDrinks[index].isSelected
+                                              ? Colors.green[600]
+                                              : Colors.black12,
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          );
+                        })
+                    : Container(),
+
+                const SizedBox(
+                  height: 10,
+                ),
                 //Notes
                 Container(
                   margin: EdgeInsets.fromLTRB(
@@ -1036,6 +1143,12 @@ class _ProductDetailsState extends State<ProductDetails> {
         return;
       }
     }
+    if (allDrinks.length > 0) {
+      if (drinkID == null) {
+        displayToastMessage(translate('lan.chooseDrinkPlz'));
+        return;
+      }
+    }
 
     var listAddons = [];
     for (int i = 0; i < allAddons.length; i++) {
@@ -1075,6 +1188,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "options": "$listOptions",
           "addons": "$listAddons",
           "note": "${tECNotes.text}",
+          "drink_id": drinkID.toString()
         });
         var dataOrder = json.decode(response.body);
         log(dataOrder.toString());
@@ -1100,6 +1214,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "addons": "$listAddons",
           "note": "${tECNotes.text}",
           "cart_token": cardToken,
+          "drink_id": drinkID.toString()
         });
         log(response.body.toString());
         var dataOrder = json.decode(response.body);

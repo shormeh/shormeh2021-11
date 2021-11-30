@@ -1,10 +1,7 @@
-// import 'dart:convert';
 // import 'dart:io';
 //
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:shormeh/Screens/Card/payment_form.dart';
 //
 // class Ready_UI extends StatefulWidget {
 //   @override
@@ -37,22 +34,13 @@
 //                 children: [
 //                   RaisedButton(
 //                     child: Text('Credit Card'),
-//                     onPressed: () {
-//                       _checkoutpage("credit");
-//                     },
+//                     onPressed: () {},
 //                     padding: EdgeInsets.fromLTRB(22, 0, 22, 0),
 //                   ),
 //                   SizedBox(height: 15),
 //                   RaisedButton(
 //                     child: Text('Mada'),
-//                     onPressed: () {
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                               builder: (_) => payment_form(
-//                                     type: 'credit',
-//                                   )));
-//                     },
+//                     onPressed: () {},
 //                     padding: EdgeInsets.fromLTRB(22, 0, 22, 0),
 //                   ),
 //                   SizedBox(
@@ -61,9 +49,7 @@
 //                   if (Platform.isIOS)
 //                     RaisedButton(
 //                       child: Text('APPLEPAY'),
-//                       onPressed: () {
-//                         _checkoutpage("APPLEPAY");
-//                       },
+//                       onPressed: () {},
 //                       padding: EdgeInsets.fromLTRB(22, 0, 22, 0),
 //                       color: Colors.black,
 //                       textColor: Colors.white,
@@ -80,72 +66,5 @@
 //         ),
 //       ),
 //     );
-//   }
-//
-//   Future<void> _checkoutpage(String type) async {
-//     //  requestCheckoutId();
-//
-//     var status;
-//
-//     String myUrl = "http://dev.hyperpay.com/hyperpay-demo/getcheckoutid.php";
-//     final response = await http.post(
-//       myUrl,
-//       headers: {'Accept': 'application/json'},
-//     );
-//     status = response.body.contains('error');
-//
-//     var data = json.decode(response.body);
-//
-//     if (status) {
-//       print('data : ${data["error"]}');
-//     } else {
-//       print('data : ${data}');
-//       _checkoutid = 'DBD65A13D37006DF8484A0CE92BAE2FC.uat01-vm-tx04';
-//
-//       String transactionStatus;
-//       try {
-//         final String result =
-//             await platform.invokeMethod('gethyperpayresponse', {
-//           "type": "ReadyUI",
-//           "mode": "TEST",
-//           "checkoutid": _checkoutid,
-//           "brand": type,
-//         });
-//         transactionStatus = '$result';
-//       } on PlatformException catch (e) {
-//         transactionStatus = "${e.message}";
-//       }
-//
-//       if (transactionStatus != null ||
-//           transactionStatus == "success" ||
-//           transactionStatus == "SYNC") {
-//         print(transactionStatus);
-//         getpaymentstatus();
-//       } else {
-//         setState(() {
-//           _resultText = transactionStatus;
-//         });
-//       }
-//     }
-//   }
-//
-//   Future<void> getpaymentstatus() async {
-//     var status;
-//
-//     String myUrl =
-//         "http://dev.hyperpay.com/hyperpay-demo/getpaymentstatus.php?id=$_checkoutid";
-//     final response = await http.post(
-//       myUrl,
-//       headers: {'Accept': 'application/json'},
-//     );
-//     status = response.body.contains('error');
-//
-//     var data = json.decode(response.body);
-//
-//     print("payment_status: ${data["result"].toString()}");
-//
-//     setState(() {
-//       _resultText = data["result"].toString();
-//     });
 //   }
 // }

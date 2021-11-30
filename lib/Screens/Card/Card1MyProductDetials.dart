@@ -139,7 +139,9 @@ class _Card1State extends State<Card1> {
                 ? ''
                 : dataMyCardProducts['data']['items'][i]['note'],
             drinkTitle: dataMyCardProducts['data']['items'][i]['drink']!=null?lan == 'en'?dataMyCardProducts['data']['items'][i]['drink']['title_en']:
-            dataMyCardProducts['data']['items'][i]['drink']['title_ar']:''
+            dataMyCardProducts['data']['items'][i]['drink']['title_ar']:'',
+            drinkID: dataMyCardProducts['data']['items'][i]['drink']!=null?
+            dataMyCardProducts['data']['items'][i]['drink']['id'].toString():''
           ));
         }
 
@@ -737,6 +739,7 @@ class _Card1State extends State<Card1> {
       "addons": product.addOn.toString(),
       "note": product.notes.toString(),
       "cart_token": cardToken,
+          "drink_id": product.drinkID
     });
     var data = json.decode(response.body);
     print(data);

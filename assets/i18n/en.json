@@ -177,6 +177,9 @@
   "mustAgree": "Terms and conditions must be agreed",
   "chooseDrink": "Choose your favorite drink",
   "chooseDrinkPlz": "Please choose your favorite drink",
-  "drink": "Drink"
+  "drink": "Drink",
+  "cancelOrder": "Remove this product",
+  "cancel": "Cancel",
+  "sure": "Sure"
 
 }}

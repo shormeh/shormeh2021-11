@@ -1170,6 +1170,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       setState(() {
         loading = true;
       });
+      print(drinkID);
       if (cardToken == "" || cardToken.toString() == "null") {
         prefs.setInt('counter', 1);
         setState(() {
@@ -1188,7 +1189,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "options": "$listOptions",
           "addons": "$listAddons",
           "note": "${tECNotes.text}",
-          "drink_id": drinkID.toString()
+          "drink_id": drinkID == null ? '' : drinkID.toString()
         });
         var dataOrder = json.decode(response.body);
         log(dataOrder.toString());
@@ -1214,7 +1215,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "addons": "$listAddons",
           "note": "${tECNotes.text}",
           "cart_token": cardToken,
-          "drink_id": drinkID.toString()
+          "drink_id": drinkID == null ? '' : drinkID.toString()
         });
         log(response.body.toString());
         var dataOrder = json.decode(response.body);

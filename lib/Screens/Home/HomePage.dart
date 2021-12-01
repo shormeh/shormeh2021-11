@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
   static const Color colorGrey = Color(0xff929393);
   static const Color colorGrey2 = Color(0xfff7f7f7);
   static const Color colorBlueHint = Color(0xff748b9d);
-
+  static int counter = 0;
   static const URL = "https://worldapp.site/api/";
 
   // static  bool islogin =false;
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     Icons.shopping_basket,
     Icons.menu,
   ];
-  int counter = 0;
+
   bool menu = false;
 
   bool offers = false;
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       setState(() {
         isLogin = _isLogin;
-        counter = _counter ?? 0;
+        HomePage.counter = _counter ?? 0;
       });
     }
   }
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                             badgeContent: Padding(
                               padding: const EdgeInsets.only(top: 2.0),
                               child: Text(
-                                counter.toString(),
+                                HomePage.counter.toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
